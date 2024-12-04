@@ -45,6 +45,14 @@ app.get("/equipments", async(req,res)=> {
        res.send(result)
 })
 
+// get first 6 equipments 
+app.get("/equipments/limit", async(req,res)=> {
+       const cursor = sportsCollection.find().limit(6) ;
+       const result = await cursor.toArray() ;
+       res.send(result)
+})
+
+
 // get one equipment 
 app.get("/equipments/:id",async(req, res) => {
     const id = req.params.id ;
