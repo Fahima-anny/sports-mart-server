@@ -10,7 +10,7 @@ app.use(cors()) ;
 app.use(express.json()) ;
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ohdc4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -26,6 +26,34 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const sportsCollection = client.db("sportsCollection").collection("equipments");
+
+
+// create a new equipment 
+app.post("/equipments", async(req,res) =>{
+    const equip = req.body ;
+    console.log(equip) ;
+    const result = await sportsCollection.insertOne(equip) ;
+    res.send(result)
+})
+
+// get all equipment 
+app.get("/equipments", async(req,res)=> {
+       const cursor = sportsCollection.find() ;
+       const result = await cursor.toArray() ;
+       res.send(result)
+})
+
+// get one equipment 
+app.get("/equipments/:id",async(req, res) => {
+    const id = req.params.id ;
+    const query = {_id: new ObjectId(id)} ;
+    const result = await sportsCollection.findOne(query) ;
+    res.send(result)
+})
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
