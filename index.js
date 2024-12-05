@@ -33,7 +33,7 @@ async function run() {
 // create a new equipment 
 app.post("/equipments", async(req,res) =>{
     const equip = req.body ;
-    console.log(equip) ;
+    // console.log(equip) ;
     const result = await sportsCollection.insertOne(equip) ;
     res.send(result)
 })
@@ -65,10 +65,20 @@ app.get("/equipments/id/:id",async(req, res) => {
 // get all equipments added by one user
 app.get("/equipments/user/:email", async(req, res) => {
     const email = req.params.email ;
-    console.log(email)
+    // console.log(email)
     const query = {email: email} ;
     const result = await sportsCollection.find(query).toArray() ;
     res.send(result)
+})
+
+
+// delete one data 
+app.delete("/equipments/id/:id", async(req, res) => {
+    const id = req.params.id ;
+    // console.log(id) ;
+    const query = {_id: new ObjectId(id)} ;
+    const result = await sportsCollection.deleteOne(query) ;
+res.send(result)
 })
 
 
