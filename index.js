@@ -82,6 +82,30 @@ res.send(result)
 })
 
 
+// UPDATE one equip data 
+app.patch("/equipments/id/:id", async(req, res) => {
+const id = req.params.id ;
+console.log(id)
+const filter = {_id: new ObjectId(id)}
+const options = { upsert: true };
+const updatedDoc = {
+    $set: {
+        item:req.body.item,
+        category:req.body.category,
+        price:req.body.price,
+        customization:req.body.customization,
+        description:req.body.description,
+        stock:req.body.stock,
+        photo:req.body.photo,
+        rating:req.body.rating,
+        delivery:req.body.delivery
+    }
+}
+const result = await sportsCollection.updateOne(filter,updatedDoc,options) ;
+res.send(result)
+})
+
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
