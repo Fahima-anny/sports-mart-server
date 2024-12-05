@@ -54,12 +54,23 @@ app.get("/equipments/limit", async(req,res)=> {
 
 
 // get one equipment 
-app.get("/equipments/:id",async(req, res) => {
+app.get("/equipments/id/:id",async(req, res) => {
     const id = req.params.id ;
     const query = {_id: new ObjectId(id)} ;
     const result = await sportsCollection.findOne(query) ;
     res.send(result)
 })
+
+
+// get all equipments added by one user
+app.get("/equipments/user/:email", async(req, res) => {
+    const email = req.params.email ;
+    console.log(email)
+    const query = {email: email} ;
+    const result = await sportsCollection.find(query).toArray() ;
+    res.send(result)
+})
+
 
 
     // Send a ping to confirm a successful connection
