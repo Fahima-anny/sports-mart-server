@@ -47,7 +47,7 @@ app.get("/equipments", async(req,res)=> {
 
 // get first 6 equipments 
 app.get("/equipments/limit", async(req,res)=> {
-       const cursor = sportsCollection.find().limit(6) ;
+       const cursor = sportsCollection.find().limit(8) ;
        const result = await cursor.toArray() ;
        res.send(result)
 })
